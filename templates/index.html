@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciberlink</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="#servicios">Servicios</a>
+        </nav>
+    </header>
+    <section id="inicio" class="hero">
+        <h1>Ciberlink</h1>
+        <h2>Servicio Técnico</h2>
+        <p>Soluciones Tecnológicas en Tuxtla Gutiérrez</p>
+    </section>
+    <section id="nosotros" class="about">
+        <h2>Sobre Nosotros</h2>
+        <p>Local a empresa local y transparente en Tuxtla Gutiérrez.</p>
+        <div class="gallery">
+            <img src="{{ url_for('static', filename='rep2.jpeg') }}" alt="Servicio 1">
+            <img src="{{ url_for('static', filename='rep3.jpeg') }}" alt="Servicio 2">
+            <img src="{{ url_for('static', filename='rep3.jpeg') }}" alt="Servicio 3">
+        </div>
+    </section>
+    <section id="servicios" class="services">
+        <h2>Servicios</h2>
+        <div class="services-container">
+            <div class="service-card">Cotización</div>
+            <div class="service-card">Refacciones</div>
+            <div class="service-card">Ventas de Equipos</div>
+            <div class="service-card">Reparaciones de Laptops y PC</div>
+            <div class="service-card">All-in-One</div>
+            <div class="service-card">Mantenimiento de Equipos</div>
+        </div>
+    </section>
+    <section id="ubicacion" class="mapa">
+        <h2>Ubicación</h2>
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15279.365281603501!2d-93.11512804551246!3d16.78456842237783!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85ed275a5dbd3d03%3A0x8838b5c8d40ab643!2sCiberlink%20Servicio%20T%C3%A9cnico%20-%20Tr%C3%A1mites!5e0!3m2!1ses-419!2smx!4v1748916403184!5m2!1ses-419!2smx" 
+            width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </section>
+    <section id="contacto" class="contact">
+        <h2>Agendar Cita</h2>
+        <p>Avenida Central Ote, 123, Tuxtla Gutiérrez, Chis.</p>
+        <p>Tel: 961-123-4567</p>
+        <div class="encarga">
+            <!-- Mostrar mensajes flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <p class="flash-{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form action="{{ url_for('agendar_cita') }}" method="POST">
+                <h3>Datos del Cliente</h3>
+                <label for="nombre">Nombre:</label><br>
+                <input type="text" id="nombre" name="nombre" required><br>
+
+                <label for="direccion">Dirección:</label><br>
+                <textarea id="direccion" name="direccion" required></textarea><br>
+
+                <label for="telefono">Teléfono:</label><br>
+                <input type="text" id="telefono" name="telefono" required><br>
+
+                <h3>Datos del Equipo</h3>
+                <label for="marca_equipo">Nombre o Marca del Equipo:</label><br>
+                <input type="text" id="marca_equipo" name="marca_equipo"><br>
+
+                <label for="numero_serie">Número de Serie:</label><br>
+                <input type="text" id="numero_serie" name="numero_serie"><br>
+
+                <label for="sistema_operativo">Sistema Operativo:</label><br>
+                <input type="text" id="sistema_operativo" name="sistema_operativo"><br>
+
+                <label for="disco_duro">Disco Duro:</label><br>
+                <input type="text" id="disco_duro" name="disco_duro"><br>
+
+                <label for="memoria_ram">Memoria RAM:</label><br>
+                <input type="text" id="memoria_ram" name="memoria_ram"><br>
+
+                <label for="accesorios">Accesorios del Equipo:</label><br>
+                <textarea id="accesorios" name="accesorios"></textarea><br>
+
+                <label for="estado_equipo">Estado del Equipo:</label><br>
+                <textarea id="estado_equipo" name="estado_equipo"></textarea><br>
+
+                <label for="observaciones">Observaciones o Detalles:</label><br>
+                <textarea id="observaciones" name="observaciones"></textarea><br>
+
+                <input type="submit" value="Agendar Cita">
+            </form>
+        </div>
+    </section>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
