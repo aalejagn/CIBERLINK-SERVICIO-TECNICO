@@ -6,6 +6,7 @@
     <title>Ciberlink</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <header>
@@ -13,20 +14,22 @@
             <a href="#inicio">Inicio</a>
             <a href="#nosotros">Nosotros</a>
             <a href="#servicios">Servicios</a>
+            <a href="#contacto">Contacto</a>
         </nav>
     </header>
     <section id="inicio" class="hero">
+        <img src="{{ url_for('static', filename='Electrónico.jpeg') }}" alt="Fondo Electrónico" class="hero-bg">
         <h1>Ciberlink</h1>
         <h2>Servicio Técnico</h2>
-        <p>Soluciones Tecnológicas en Tuxtla Gutiérrez</p>
+        <h2>Soluciones Tecnológicas en Tuxtla Gutiérrez</h2>
     </section>
     <section id="nosotros" class="about">
         <h2>Sobre Nosotros</h2>
         <p>Local a empresa local y transparente en Tuxtla Gutiérrez.</p>
         <div class="gallery">
-            <img src="{{ url_for('static', filename='rep2.jpeg') }}" alt="Servicio 1">
-            <img src="{{ url_for('static', filename='rep3.jpeg') }}" alt="Servicio 2">
-            <img src="{{ url_for('static', filename='rep3.jpeg') }}" alt="Servicio 3">
+            <img src="{{ url_for('static', filename='edu5.jpeg') }}" alt="Servicio 1">
+            <img src="{{ url_for('static', filename='edu2.jpeg') }}" alt="Servicio 2">
+            <img src="{{ url_for('static', filename='edu3.jpeg') }}" alt="Servicio 3">
         </div>
     </section>
     <section id="servicios" class="services">
@@ -51,53 +54,66 @@
         <h2>Agendar Cita</h2>
         <p>Avenida Central Ote, 123, Tuxtla Gutiérrez, Chis.</p>
         <p>Tel: 961-123-4567</p>
-        <div class="encarga">
-            <!-- Mostrar mensajes flash -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <p class="flash-{{ category }}">{{ message }}</p>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-            <form action="{{ url_for('agendar_cita') }}" method="POST">
-                <h3>Datos del Cliente</h3>
-                <label for="nombre">Nombre:</label><br>
-                <input type="text" id="nombre" name="nombre" required><br>
+        <div class="contact-container">
+            <div class="encarga">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <p class="flash-{{ category }}">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form action="{{ url_for('agendar_cita') }}" method="POST">
+                    <h3>Datos del Cliente</h3>
+                    <label for="nombre">Nombre:</label><br>
+                    <input type="text" id="nombre" name="nombre" required><br>
 
-                <label for="direccion">Dirección:</label><br>
-                <textarea id="direccion" name="direccion" required></textarea><br>
+                    <label for="direccion">Dirección:</label><br>
+                    <textarea id="direccion" name="direccion" required></textarea><br>
 
-                <label for="telefono">Teléfono:</label><br>
-                <input type="text" id="telefono" name="telefono" required><br>
+                    <label for="telefono">Teléfono:</label><br>
+                    <input type="text" id="telefono" name="telefono" required pattern="\d{10}" title="El teléfono debe tener 10 dígitos numéricos"><br>
 
-                <h3>Datos del Equipo</h3>
-                <label for="marca_equipo">Nombre o Marca del Equipo:</label><br>
-                <input type="text" id="marca_equipo" name="marca_equipo"><br>
+                    <label for="correo">Correo Electrónico (opcional):</label><br>
+                    <input type="email" id="correo" name="correo"><br>
 
-                <label for="numero_serie">Número de Serie:</label><br>
-                <input type="text" id="numero_serie" name="numero_serie"><br>
+                    <h3>Datos del Equipo</h3>
+                    <label for="marca_equipo">Nombre o Marca del Equipo:</label><br>
+                    <input type="text" id="marca_equipo" name="marca_equipo"><br>
 
-                <label for="sistema_operativo">Sistema Operativo:</label><br>
-                <input type="text" id="sistema_operativo" name="sistema_operativo"><br>
+                    <label for="numero_serie">Número de Serie:</label><br>
+                    <input type="text" id="numero_serie" name="numero_serie"><br>
 
-                <label for="disco_duro">Disco Duro:</label><br>
-                <input type="text" id="disco_duro" name="disco_duro"><br>
+                    <label for="sistema_operativo">Sistema Operativo:</label><br>
+                    <input type="text" id="sistema_operativo" name="sistema_operativo"><br>
 
-                <label for="memoria_ram">Memoria RAM:</label><br>
-                <input type="text" id="memoria_ram" name="memoria_ram"><br>
+                    <label for="disco_duro">Disco Duro:</label><br>
+                    <input type="text" id="disco_duro" name="disco_duro"><br>
 
-                <label for="accesorios">Accesorios del Equipo:</label><br>
-                <textarea id="accesorios" name="accesorios"></textarea><br>
+                    <label for="memoria_ram">Memoria RAM:</label><br>
+                    <input type="text" id="memoria_ram" name="memoria_ram"><br>
 
-                <label for="estado_equipo">Estado del Equipo:</label><br>
-                <textarea id="estado_equipo" name="estado_equipo"></textarea><br>
+                    <label for="accesorios">Accesorios del Equipo:</label><br>
+                    <textarea id="accesorios" name="accesorios"></textarea><br>
 
-                <label for="observaciones">Observaciones o Detalles:</label><br>
-                <textarea id="observaciones" name="observaciones"></textarea><br>
+                    <label for="estado_equipo">Estado del Equipo:</label><br>
+                    <textarea id="estado_equipo" name="estado_equipo"></textarea><br>
 
-                <input type="submit" value="Agendar Cita">
-            </form>
+                    <label for="observaciones">Observaciones o Detalles:</label><br>
+                    <textarea id="observaciones" name="observaciones"></textarea><br>
+
+                    <label for="fecha_cita">Fecha de la Cita:</label><br>
+                    <input type="hidden" id="fecha_cita" name="fecha_cita">
+                    <div id="calendar" class="calendar"></div><br>
+
+                    <input type="submit" value="Agendar Cita">
+                </form>
+            </div>
+            <div class="social-links">
+                <a href="https://wa.me/9611234567" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/ciberlink1/" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61563959206418&viewas=&show_switched_toast=false&show_switched_tooltip=false&is_tour_dismissed=false&is_tour_completed=false&show_podcast_settings=false&show_community_review_changes=false&should_open_composer=false&badge_type=NEW_MEMBER&show_community_rollback_toast=false&show_community_rollback=false&show_follower_visibility_disclosure=false&bypass_exit_warning=true" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
+            </div>
         </div>
     </section>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

@@ -31,12 +31,24 @@ nav a:hover {
 .hero {
     text-align: center;
     padding: 100px 20px 50px;
-    background: url('/static/Electrónico.jpeg') no-repeat center center/cover;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
+    overflow: hidden; /* Evita que la imagen se desborde */
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mantiene la proporción y cubre el área */
+    z-index: -1;
+    image-rendering: -webkit-optimize-contrast; /* Mejora la nitidez en Webkit */
+    image-rendering: pixelated; /* Alternativa para nitidez, dependiendo del caso */
 }
 
 .hero h1 {
@@ -68,6 +80,118 @@ nav a:hover {
     border-radius: 15px;
     margin: 20px auto;
     max-width: 1200px;
+}
+
+.contact-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.encarga {
+    flex: 2;
+    margin-top: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.encarga h3 {
+    color: #ffd700;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+.encarga form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.encarga label {
+    font-weight: 600;
+    color: #ffd700;
+}
+
+.encarga input, .encarga textarea {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    resize: vertical;
+}
+
+.encarga textarea {
+    min-height: 80px;
+}
+
+.encarga input[type="submit"] {
+    background: #00ff00;
+    color: #1a1a1a;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    padding: 12px;
+    font-weight: bold;
+}
+
+.encarga input[type="submit"]:hover {
+    background: #00cc00;
+}
+
+.social-links {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-icon {
+    font-size: 2em;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: #00ff00;
+}
+
+.calendar {
+    border: 1px solid #00ff00;
+    border-radius: 5px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.calendar table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.calendar th, .calendar td {
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #00ff00;
+}
+
+.calendar .sunday {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.calendar .selected {
+    background: #00ff00;
+    color: #1a1a1a;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .about h2, .services h2, .contact h2, .mapa h2 {
@@ -131,61 +255,6 @@ nav a:hover {
     font-size: 1.1em;
 }
 
-.encarga {
-    margin-top: 20px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-.encarga h3 {
-    color: #ffd700;
-    font-size: 1.5em;
-    margin-bottom: 15px;
-}
-
-.encarga form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.encarga label {
-    font-weight: 600;
-    color: #ffd700;
-}
-
-.encarga input, .encarga textarea {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
-    resize: vertical;
-}
-
-.encarga textarea {
-    min-height: 80px;
-}
-
-.encarga input[type="submit"] {
-    background: #00ff00;
-    color: #1a1a1a;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    padding: 12px;
-    font-weight: bold;
-}
-
-.encarga input[type="submit"]:hover {
-    background: #00cc00;
-}
-
 .flash-success {
     color: #00ff00;
     background: rgba(0, 255, 0, 0.1);
@@ -223,4 +292,19 @@ nav a:hover {
     .services-container { grid-template-columns: 1fr; }
     .mapa iframe { height: 200px; }
     .encarga { max-width: 90%; }
+    .contact-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .social-links {
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    .social-icon {
+        margin: 0 10px;
+    }
+    .calendar {
+        max-width: 100%;
+    }
 }
