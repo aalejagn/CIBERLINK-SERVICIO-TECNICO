@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import mysql.connector
 from mysql.connector import Error
 import re
@@ -42,13 +42,46 @@ def validate_date(fecha_cita):
             return False, "La fecha de la cita no puede ser anterior a hoy."
         if cita_date.weekday() == 6:  # 6 = Domingo
             return False, "No se pueden agendar citas los domingos."
-        return True, ""
+        # Verificar límite de citas por día (ejemplo: 5 citas máximo)
+        conn = get_db_connection()
+        if conn:
+            try:
+                cursor = conn.cursor()
+                query = "SELECT COUNT(*) FROM citas WHERE fecha_cita = %s AND estado_cita != 'cancelada'"
+                cursor.execute(query, (fecha_cita,))
+                count = cursor.fetchone()[0]
+                cursor.close()
+                conn.close()
+                if count >= 5:  # Límite de 5 citas por día
+                    return False, "No hay disponibilidad para esta fecha. Elige otro día."
+                return True, ""
+            except Error as e:
+                print(f"Error al verificar citas: {e}")
+                return False, "Error al verificar disponibilidad."
+        return False, "Error de conexión con la base de datos."
     except ValueError:
         return False, "Formato de fecha inválido."
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/api/citas')
+def get_citas():
+    conn = get_db_connection()
+    if conn:
+        try:
+            cursor = conn.cursor(dictionary=True)
+            query = "SELECT fecha_cita, COUNT(*) as citas_count FROM citas WHERE estado_cita != 'cancelada' GROUP BY fecha_cita"
+            cursor.execute(query)
+            citas = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return jsonify(citas)
+        except Error as e:
+            print(f"Error al obtener citas: {e}")
+            return jsonify([]), 500
+    return jsonify([]), 500
 
 @app.route('/agendar_cita', methods=['POST'])
 def agendar_cita():
@@ -93,11 +126,13 @@ def agendar_cita():
                 cursor = conn.cursor()
                 query = """
                     INSERT INTO citas (nombre, direccion, telefono, correo, fecha_cita, marca_equipo, 
-                    numero_serie, sistema_operativo, disco_duro, memoria_ram, accesorios, estado_equipo, observaciones)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    numero_serie, sistema_operativo, disco_duro, memoria_ram, accesorios, estado_equipo, 
+                    observaciones, estado_cita)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """
                 values = (nombre, direccion, telefono, correo, fecha_cita, marca_equipo, numero_serie,
-                          sistema_operativo, disco_duro, memoria_ram, accesorios, estado_equipo, observaciones)
+                          sistema_operativo, disco_duro, memoria_ram, accesorios, estado_equipo, 
+                          observaciones, 'pendiente')
                 cursor.execute(query, values)
                 conn.commit()
                 flash('Cita agendada con éxito. Nos pondremos en contacto contigo pronto.', 'success')

@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 </head>
 <body>
     <header>
@@ -56,55 +58,59 @@
         <p>Tel: 961-123-4567</p>
         <div class="contact-container">
             <div class="encarga">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <p class="flash-{{ category }}">{{ message }}</p>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-                <form action="{{ url_for('agendar_cita') }}" method="POST">
-                    <h3>Datos del Cliente</h3>
-                    <label for="nombre">Nombre:</label><br>
-                    <input type="text" id="nombre" name="nombre" required><br>
+                <h3>Agendar Cita</h3>
+                <p>Avenida Central Ote, 123, Tuxtla Gutiérrez, Chis.</p>
+                <p>Tel: 961-123-4567</p>
+                <div id="calendar"></div> <!-- Contenedor para FullCalendar -->
+                <form action="/agendar_cita" method="POST">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="flash-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <h4>Datos del Cliente</h4>
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
 
-                    <label for="direccion">Dirección:</label><br>
-                    <textarea id="direccion" name="direccion" required></textarea><br>
+                    <label for="direccion">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" required>
 
-                    <label for="telefono">Teléfono:</label><br>
-                    <input type="text" id="telefono" name="telefono" required pattern="\d{10}" title="El teléfono debe tener 10 dígitos numéricos"><br>
+                    <label for="telefono">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono" required>
 
-                    <label for="correo">Correo Electrónico (opcional):</label><br>
-                    <input type="email" id="correo" name="correo"><br>
+                    <label for="correo">Correo Electrónico (opcional):</label>
+                    <input type="email" id="correo" name="correo">
 
-                    <h3>Datos del Equipo</h3>
-                    <label for="marca_equipo">Nombre o Marca del Equipo:</label><br>
-                    <input type="text" id="marca_equipo" name="marca_equipo"><br>
+                    <h4>Datos del Equipo</h4>
+                    <label for="marca_equipo">Nombre o Marca del Equipo:</label>
+                    <input type="text" id="marca_equipo" name="marca_equipo" required>
 
-                    <label for="numero_serie">Número de Serie:</label><br>
-                    <input type="text" id="numero_serie" name="numero_serie"><br>
+                    <label for="numero_serie">Número de Serie:</label>
+                    <input type="text" id="numero_serie" name="numero_serie" required>
 
-                    <label for="sistema_operativo">Sistema Operativo:</label><br>
-                    <input type="text" id="sistema_operativo" name="sistema_operativo"><br>
+                    <label for="sistema_operativo">Sistema Operativo:</label>
+                    <input type="text" id="sistema_operativo" name="sistema_operativo" required>
 
-                    <label for="disco_duro">Disco Duro:</label><br>
-                    <input type="text" id="disco_duro" name="disco_duro"><br>
+                    <label for="disco_duro">Disco Duro:</label>
+                    <input type="text" id="disco_duro" name="disco_duro" required>
 
-                    <label for="memoria_ram">Memoria RAM:</label><br>
-                    <input type="text" id="memoria_ram" name="memoria_ram"><br>
+                    <label for="memoria_ram">Memoria RAM:</label>
+                    <input type="text" id="memoria_ram" name="memoria_ram" required>
 
-                    <label for="accesorios">Accesorios del Equipo:</label><br>
-                    <textarea id="accesorios" name="accesorios"></textarea><br>
+                    <label for="accesorios">Accesorios del Equipo:</label>
+                    <input type="text" id="accesorios" name="accesorios" required>
 
-                    <label for="estado_equipo">Estado del Equipo:</label><br>
-                    <textarea id="estado_equipo" name="estado_equipo"></textarea><br>
+                    <label for="estado_equipo">Estado del Equipo:</label>
+                    <input type="text" id="estado_equipo" name="estado_equipo" required>
 
-                    <label for="observaciones">Observaciones o Detalles:</label><br>
-                    <textarea id="observaciones" name="observaciones"></textarea><br>
+                    <label for="observaciones">Observaciones o Detalles:</label>
+                    <textarea id="observaciones" name="observaciones" required></textarea>
 
-                    <label for="fecha_cita">Fecha de la Cita:</label><br>
-                    <input type="hidden" id="fecha_cita" name="fecha_cita">
-                    <div id="calendar" class="calendar"></div><br>
+                    <label for="fecha_cita">Fecha de la Cita:</label>
+                    <input type="date" id="fecha_cita" name="fecha_cita" readonly required>
 
                     <input type="submit" value="Agendar Cita">
                 </form>

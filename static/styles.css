@@ -162,36 +162,47 @@ nav a:hover {
     color: #00ff00;
 }
 
-.calendar {
-    border: 1px solid #00ff00;
-    border-radius: 5px;
-    padding: 10px;
+#calendar {
+    max-width: 900px;
+    margin: 20px auto;
     background: rgba(0, 0, 0, 0.7);
-    max-width: 300px;
-    margin: 0 auto;
-}
-
-.calendar table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.calendar th, .calendar td {
-    text-align: center;
-    padding: 5px;
+    padding: 10px;
+    border-radius: 10px;
     border: 1px solid #00ff00;
 }
 
-.calendar .sunday {
-    color: #ff0000;
-    font-weight: bold;
+.fc-button {
+    background: #00ff00 !important;
+    color: #1a1a1a !important;
+    border: none !important;
+    border-radius: 5px !important;
+    padding: 8px 12px !important;
+    font-weight: bold !important;
+    transition: background 0.3s ease !important;
 }
 
-.calendar .selected {
-    background: #00ff00;
-    color: #1a1a1a;
-    border-radius: 50%;
-    cursor: pointer;
+.fc-button:hover {
+    background: #00cc00 !important;
+}
+
+.fc-daygrid-day {
+    color: #fff !important;
+}
+
+.fc-daygrid-day.sunday {
+    background: rgba(255, 0, 0, 0.2) !important; /* Domingos en rojo */
+}
+
+.fc-daygrid-day.fc-day-disabled {
+    background: rgba(128, 128, 128, 0.5) !important; /* Días no disponibles */
+}
+
+.fc-daygrid-day:hover {
+    background: rgba(0, 255, 0, 0.2) !important;
+}
+
+.fc-header-toolbar {
+    color: #ffd700 !important;
 }
 
 .about h2, .services h2, .contact h2, .mapa h2 {
