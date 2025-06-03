@@ -1,15 +1,31 @@
-# Ignorar archivos de entorno virtual
-# Ignorar archivos de entorno virtual de Python
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
 
- venv/
- env/
- .env
- 
- # Ignorar archivos de configuración local
- *.pyc
- __pycache__/
- .vscode/
- .idea/
- 
- # Ignorar archivos de base de datos o sensibles
- *.env
+# Archivos de entorno
+.env
+
+# Archivos de base de datos
+*.sql
+*.db
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos generados por editores
+*.swp
+*.swo
+*~
+
+# Entornos virtuales
+*.venv/
+
+# Archivos de dependencias (si usas un entorno virtual)
+Pipfile.lock
